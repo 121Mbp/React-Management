@@ -1,3 +1,5 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 import './App.css';
 import Customer from './components/Customer';
 import Table from '@mui/material/Table';
@@ -5,35 +7,25 @@ import TableHead from '@mui/material/TableHead';
 import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
-
-const customers = [
-  {
-    id: 1,
-    image: 'https://placeimg.com/64/64/1',
-    name: '홍길동',
-    birthday: '1986.02.18',
-    gender: '남자',
-    job: '대학생'
-  },
-  {
-    id: 2,
-    image: 'https://placeimg.com/64/64/2',
-    name: '마우개',
-    birthday: '1988.11.20',
-    gender: '남자',
-    job: '프로그래머'
-  },
-  {
-    id: 3,
-    image: 'https://placeimg.com/64/64/3',
-    name: '강백호',
-    birthday: '1990.04.04',
-    gender: '남자',
-    job: '디자이너'
-  }
-]
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/customers')
+    .then(res => res.json())
+    .then(
+      (result) => {
+        setData(result);
+        console.log(result);
+      },
+      (error) => {
+        
+      }
+    )
+  }, []);
+  
   return (
     <div>
       <Table>
@@ -49,7 +41,7 @@ function App() {
         </TableHead>
         <TableBody>
           {
-            customers.map(item => {
+            data.map(item => {
               return (
                 <Customer
                   key={item.id}
